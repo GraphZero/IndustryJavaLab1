@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.*
-
 group 'andrew'
 version '1.0-SNAPSHOT'
 
@@ -16,6 +14,9 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+
+
 }
 
 jar {
@@ -29,15 +30,25 @@ jar {
 }
 
 // Zad 2
-def props = new Properties()
-file("src/main/resources/db (1).properties").withInputStream { props.load(it) }
+// build with "gradle setProperties -Pprofile=prod"
+// noinspection GroovyAssignabilityCheck
 
-task printProps {
-    doFirst {
-        println props.getProperty("database.jdbc.driverClass")
-        println props.getProperty("database.jdbc.connectionURL")
-        println props.getProperty("database.jdbc.username")
-        println props.getProperty("database.jdbc.password")
-        println props.getProperty("database.jdbc.lol")
+task setProperties {
+    def props = new Properties()
+    File propsFile = new File('src/main/resources/db.properties')
+
+    if (profile == "dev"){
+        props.setProperty('database.jdbc.driverClass', "dev")
+        props.setProperty('database.jdbc.database.jdbc.connectionURL', "dev")
+        props.setProperty('database.jdbc.username', "dev")
+        props.setProperty('database.jdbc.password', "dev")
+        props.store(propsFile.newWriter(), null)
+    }
+    if (profile == "prod"){
+        props.setProperty('database.jdbc.driverClass', "prod")
+        props.setProperty('database.jdbc.database.jdbc.connectionURL', "prod")
+        props.setProperty('database.jdbc.username', "prod")
+        props.setProperty('database.jdbc.password', "prod")
+        props.store(propsFile.newWriter(), null)
     }
 }
