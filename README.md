@@ -1,8 +1,5 @@
 # BuisnessJava
-My temporary repo for "Java w zastosowaniach produkcyjnych". 
-
-
-First assigments are in the "build.gradle" file. 
+My  "Java w zastosowaniach produkcyjnych". 
 
 Zad 1 and 2 are in build.gradle
 
